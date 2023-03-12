@@ -17,9 +17,10 @@
         #contenedor{
             margin: 0;
             padding: 0;
-            overflow: visible;
             display: flex;
             justify-content: center;
+            overflow: hidden;
+            user-select: none;
         }
         #contenedor marquee{
             font-size: 2em;
@@ -36,6 +37,8 @@
     </div>
 
     <script>
+        const anchoCaracter = 18;
+        const alturaCaracter = 31;
         const contenedor = document.getElementById("contenedor");
         let viewwidth = document.documentElement.clientWidth;
         let viewheight = document.documentElement.clientHeight;
@@ -52,11 +55,29 @@
             return Math.floor(Math.random() * max)
         }
 
+        function randomStringOfNumbers(length, max) {
+            let texto = '';
+            for (let i=0; i < length; i++){
+                texto = texto + randomNumb(max) + '<br>' 
+            }
+            return texto
+        }
 
-        window.addEventListener("resize", function () {
-            console.log(viewwidth)
+        function añadirMarquees() {
+            viewwidth = document.documentElement.clientWidth;
             viewheight = document.documentElement.clientHeight;
 
+            contenedor.innerHTML = ''
+
+            for (let i = 0; i < Math.floor(viewwidth/anchoCaracter); i++) {
+                contenedor.innerHTML = contenedor.innerHTML + `<marquee scrollamount=${10 + randomNumb(20)} direction=down>${randomStringOfNumbers(Math.floor(viewheight/alturaCaracter) + 1, 9)}</marquee>`;
+            }
+        }
+
+        //Se terminan de declarar las funciones
+
+        window.addEventListener("resize", function () {
+           // console.log(viewwidth)
             if (Math.abs(viewwidth - document.documentElement.clientWidth) > 50) {
                 añadirMarquees()
             }
@@ -64,17 +85,7 @@
 
 
 
-        function añadirMarquees() {
-            console.log('resizing')
-            viewwidth = document.documentElement.clientWidth;
-            viewheight = document.documentElement.clientHeight;
-            console.log(viewheight, viewwidth)
 
-            contenedor.innerHTML = ''
-            for (let i = 0; i<Math.floor(viewwidth/18); i++) {
-                contenedor.innerHTML = contenedor.innerHTML + `<marquee scrollamount=${10 + randomNumb(20)} direction=down>${randomStringOfBinary(Math.floor(viewheight/31))}</marquee>`;
-            }
-        }
 
         añadirMarquees();
 
