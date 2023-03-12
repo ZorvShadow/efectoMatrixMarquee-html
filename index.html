@@ -39,12 +39,7 @@
         const contenedor = document.getElementById("contenedor");
         let viewwidth = document.documentElement.clientWidth;
         let viewheight = document.documentElement.clientHeight;
-
-        contenedor.style.height = viewheight;
-        contenedor.style.width = viewwidth;
-
-        console.log(`El tamaño del documento es de: ${viewwidth} x ${viewheight}`)
-
+        
         function randomStringOfBinary(length) {
             let texto = "";
             for (let i=0;i<length;i++){
@@ -57,9 +52,32 @@
             return Math.floor(Math.random() * max)
         }
 
-        for (let i = 0; i<Math.floor(viewwidth/18); i++) {
-            contenedor.innerHTML = contenedor.innerHTML + `<marquee scrollamount=${20 + randomNumb(5)} direction=down>${randomStringOfBinary(Math.floor(viewheight/31))}</marquee>`
+
+        window.addEventListener("resize", function () {
+            console.log(viewwidth)
+            viewheight = document.documentElement.clientHeight;
+
+            if (Math.abs(viewwidth - document.documentElement.clientWidth) > 50) {
+                añadirMarquees()
+            }
+        })
+
+
+
+        function añadirMarquees() {
+            console.log('resizing')
+            viewwidth = document.documentElement.clientWidth;
+            viewheight = document.documentElement.clientHeight;
+            console.log(viewheight, viewwidth)
+
+            contenedor.innerHTML = ''
+            for (let i = 0; i<Math.floor(viewwidth/18); i++) {
+                contenedor.innerHTML = contenedor.innerHTML + `<marquee scrollamount=${10 + randomNumb(20)} direction=down>${randomStringOfBinary(Math.floor(viewheight/31))}</marquee>`;
+            }
         }
+
+        añadirMarquees();
+
     </script>
 </body>
 </html>
