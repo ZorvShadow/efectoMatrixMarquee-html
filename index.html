@@ -8,7 +8,25 @@
         body {
             background-color: black;
             color: #00FF00;
-            font-family: 'Courier New', Courier, monospace;
+            font-family: monospace;
+            font-weight: bold;
+            overflow: hidden;
+            padding: 0;
+            margin: 0;
+        }
+        #contenedor{
+            margin: 0;
+            padding: 0;
+            overflow: visible;
+            display: flex;
+            justify-content: center;
+        }
+        #contenedor marquee{
+            font-size: 2em;
+            width: 16px;
+            margin-left: 1px;
+            margin-right: 1px;
+            text-align: center;
         }
     </style>    
     <title>Efecto Matrix</title>
@@ -18,9 +36,30 @@
     </div>
 
     <script>
-        let viewwidth = document.getElementsByTagName('body').clientWidth;
-        console.log(viewwidth)
+        const contenedor = document.getElementById("contenedor");
+        let viewwidth = document.documentElement.clientWidth;
+        let viewheight = document.documentElement.clientHeight;
 
+        contenedor.style.height = viewheight;
+        contenedor.style.width = viewwidth;
+
+        console.log(`El tamaño del documento es de: ${viewwidth} x ${viewheight}`)
+
+        function randomStringOfBinary(length) {
+            let texto = "";
+            for (let i=0;i<length;i++){
+                texto = texto + Math.round(Math.random()) + '<br>'
+            }
+            return texto
+        }
+
+        function randomNumb (max) {
+            return Math.floor(Math.random() * max)
+        }
+
+        for (let i = 0; i<Math.floor(viewwidth/18); i++) {
+            contenedor.innerHTML = contenedor.innerHTML + `<marquee scrollamount=${20 + randomNumb(5)} direction=down>${randomStringOfBinary(Math.floor(viewheight/31))}</marquee>`
+        }
     </script>
 </body>
 </html>
